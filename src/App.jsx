@@ -1,11 +1,12 @@
 import { SplashCursor } from "./components/background/SplashCursor";
-import { Heder } from "./components/homepage/Heder";
+
+import "./index.css";
 
 function App() {
   return (
-    <div style={{ width: "100vw", height: "100vh", margin: 0, padding: 0 }}>
+    <div className="min-h-screen w-full overflow-hidden relative bg-white text-black">
       <SplashCursor>
-        <Heder />
+        
       </SplashCursor>
     </div>
   );
