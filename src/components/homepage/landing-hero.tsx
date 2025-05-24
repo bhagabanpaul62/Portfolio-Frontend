@@ -4,6 +4,7 @@
 import { LayoutGroup, motion } from "framer-motion"
 import { TextRotate } from "./ui/text-rotate"
 import Floating, { FloatingElement } from "./ui/parallax-floating"
+import localImage from "../../assets/image.jpg"
 
 const exampleImages = [
   {
@@ -23,8 +24,7 @@ const exampleImages = [
     author: "ANDRII SOLOK",
     title: "A blurry photo of a crowd of people",
   },
-  {
-    url: "../../../public/image.jpg",
+  {    url: localImage,  // Using imported image
     author: "Wesley Tingey",
     title: "Rippling Crystal Blue Water",
   },
