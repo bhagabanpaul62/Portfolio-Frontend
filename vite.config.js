@@ -5,20 +5,21 @@ import path from "node:path";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  assetsInclude: ["**/*.JPG", "**/*.jpg", "**/*.PNG", "**/*.png"],
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'framer-motion'],
+    include: ["react", "react-dom", "framer-motion"],
     esbuildOptions: {
-      target: 'esnext',
+      target: "esnext",
     },
   },
   build: {
-    target: 'esnext',
+    target: "esnext",
     sourcemap: true,
   },
 });

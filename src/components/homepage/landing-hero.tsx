@@ -5,21 +5,27 @@ import { LayoutGroup, motion } from "framer-motion"
 import { TextRotate } from "./ui/text-rotate"
 import Floating, { FloatingElement } from "./ui/parallax-floating"
 import localImage from "../../assets/image.jpg"
+import localImage1 from "../../assets/IMG_0589.JPG"
+import localImage2 from "../../assets/IMG_0590.JPG"
+import localImage3 from "../../assets/IMG_0588.jpeg"
+import localImage4 from "../../assets/IMG_0592.JPG"
+
+
 
 const exampleImages = [
   {
-    url: "https://images.unsplash.com/photo-1727341554370-80e0fe9ad082?q=80&w=2276&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      url: localImage4,
     author: "Branislav Rodman",
     title: "A Black and White Photo of a Woman Brushing Her Teeth",
   },
   {
-    url: "https://images.unsplash.com/photo-1640680608781-2e4199dd1579?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    url: localImage1,
     link: "https://unsplash.com/photos/a-painting-of-a-palm-leaf-on-a-multicolored-background-AaNPwrSNOFE",
     title: "Neon Palm",
     author: "Tim Mossholder",
   },
   {
-    url: "https://images.unsplash.com/photo-1677338354108-223e807fb1bd?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    url: localImage2,
     link: "https://unsplash.com/photos/a-blurry-photo-of-a-crowd-of-people-UgbxzloNGsc",
     author: "ANDRII SOLOK",
     title: "A blurry photo of a crowd of people",
@@ -29,7 +35,7 @@ const exampleImages = [
     title: "Rippling Crystal Blue Water",
   },
   {
-    url: "https://images.unsplash.com/photo-1624344965199-ed40391d20f2?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    url: localImage3,
     link: "https://unsplash.com/de/fotos/mann-im-schwarzen-hemd-unter-blauem-himmel-m8RDNiuEXro",
     author: "Serhii Tyaglovsky",
     title: "Mann im schwarzen Hemd unter blauem Himmel",
@@ -90,6 +96,7 @@ function LandingHero() {
           depth={4}
           className="top-[75%] left-[15%] md:top-[80%] md:left-[8%]"
         >
+          
           <motion.img
             src={exampleImages[2].url}
             alt={exampleImages[2].title}
