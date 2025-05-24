@@ -60,7 +60,7 @@ function LandingHero() {
       <Floating sensitivity={-0.5} className="h-full">
         <FloatingElement
           depth={0.5}
-          className="top-[15%] left-[2%] md:top-[25%] md:left-[5%]"
+          className="top-[30%] left-[7%] md:top-[25%] md:left-[5%]"
         >
           <motion.img
             src={exampleImages[0].url}
@@ -74,7 +74,7 @@ function LandingHero() {
 
         <FloatingElement
           depth={1}
-          className="top-[0%] left-[8%] md:top-[6%] md:left-[11%]"
+          className="top-[15%] left-[8%] md:top-[6%] md:left-[11%]"
         >
           <motion.img
             src={exampleImages[1].url}
@@ -88,7 +88,7 @@ function LandingHero() {
 
         <FloatingElement
           depth={4}
-          className="top-[90%] left-[6%] md:top-[80%] md:left-[8%]"
+          className="top-[75%] left-[15%] md:top-[80%] md:left-[8%]"
         >
           <motion.img
             src={exampleImages[2].url}
@@ -102,12 +102,12 @@ function LandingHero() {
 
         <FloatingElement
           depth={2}
-          className="top-[0%] left-[87%] md:top-[2%] md:left-[83%]"
+          className=" top-[15%] left-[70%] md:top-[2%] md:left-[83%]"
         >
           <motion.img
             src={exampleImages[3].url}
             alt={exampleImages[3].title}
-            className="w-40 h-36 sm:w-48 sm:h-44 md:w-60 md:h-52 lg:w-64 lg:h-56 object-cover hover:scale-105 duration-200 cursor-pointer transition-transform shadow-2xl rotate-[6deg] rounded-xl"
+            className="w-30 h-30 sm:w-48 sm:h-44 md:w-60 md:h-52 lg:w-64 lg:h-56 object-cover hover:scale-105 duration-200 cursor-pointer transition-transform shadow-2xl rotate-[6deg] rounded-xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.1 }}
@@ -116,12 +116,12 @@ function LandingHero() {
 
         <FloatingElement
           depth={1}
-          className="top-[78%] left-[83%] md:top-[68%] md:left-[83%]"
+          className=" top-[70%] left-[66%] md:top-[68%] md:left-[83%]"
         >
           <motion.img
             src={exampleImages[4].url}
             alt={exampleImages[4].title}
-            className="w-44 h-44 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 object-cover hover:scale-105 duration-200 cursor-pointer transition-transform shadow-2xl rotate-[19deg] rounded-xl"
+            className="w-60 h-40  sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 object-cover hover:scale-105 duration-200 cursor-pointer transition-transform shadow-2xl rotate-[19deg] rounded-xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.3 }}
