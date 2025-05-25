@@ -1248,40 +1248,28 @@ function SplashCursor({
     TRANSPARENT,
   ]);
   return (
-    <div style={{ 
-      width: '100vw', 
-      height: '100vh', 
-      position: 'relative', 
-      overflow: 'hidden',
-      backgroundColor: '#000000'  // Add black background
-    }}>
-      <div style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: 0,
-        pointerEvents: 'none'
-      }}>
-        <canvas 
-          ref={canvasRef}
-          id="fluid"
-          style={{
-            width: '100%',
-            height: '100%',
-            position: 'absolute',
-            top: 0,
-            left: 0
-          }}
-        />
-      </div>
-      <div style={{
-        position: 'relative',
-        zIndex: 1,
-        width: '100%',
-        height: '100%'
-      }}>
+    <div style={{ position: "relative" }}>
+      <canvas
+        ref={canvasRef}
+        id="fluid"
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          pointerEvents: "none",
+          zIndex: 0,
+          backgroundColor: "#000000", // black background for canvas container
+        }}
+      />
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          // no fixed height, allow page content to determine height
+        }}
+      >
         {children}
       </div>
     </div>

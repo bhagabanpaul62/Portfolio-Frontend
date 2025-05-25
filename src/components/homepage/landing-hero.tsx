@@ -62,11 +62,11 @@ const exampleImages = [
 
 function LandingHero() {
   return (
-    <section className="w-full h-screen overflow-hidden md:overflow-visible flex flex-col items-center justify-center relative">
+    <section className="w-full h-screen overflow-hidden md:overflow-visible flex flex-col items-center justify-center relative z-10 ">
       <Floating sensitivity={-0.5} className="h-full">
         <FloatingElement
           depth={0.5}
-          className="top-[30%] left-[7%] md:top-[25%] md:left-[5%]"
+          className="top-[30%] left-[7%] md:top-[39%] md:left-[5%]"
         >
           <motion.img
             src={exampleImages[0].url}
@@ -80,7 +80,7 @@ function LandingHero() {
 
         <FloatingElement
           depth={1}
-          className="top-[15%] left-[8%] md:top-[6%] md:left-[11%]"
+          className="top-[15%] left-[8%] md:top-[16%] md:left-[11%]"
         >
           <motion.img
             src={exampleImages[1].url}
@@ -109,7 +109,7 @@ function LandingHero() {
 
         <FloatingElement
           depth={2}
-          className=" top-[15%] left-[70%] md:top-[2%] md:left-[83%]"
+          className=" top-[15%] left-[70%] md:top-[16%] md:left-[83%]"
         >
           <motion.img
             src={exampleImages[3].url}
