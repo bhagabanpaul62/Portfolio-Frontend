@@ -49,7 +49,7 @@ export const Header = () => {
           ? "backdrop-blur-[8px] "
           : "backdrop-blur-none bg-transparent"
       }`
-    : "hidden opacity-0 -translate-y-4 backdrop-blur-none bg-transparent transition-all duration-500 ease-in-out";
+    : "hidden opacity-0 -translate-y-4 backdrop-blur-none bg-transparent  transition-all duration-500 ease-in-out";
 
   return (
     <header
@@ -67,8 +67,8 @@ export const Header = () => {
         }
         ${
           menu
-            ? "h-[50vh] transition-[height] duration-500 ease-in-out"
-            : "h-16 transition-[height] duration-500 ease-in-out"
+            ? "h-[50vh] transition-[height] duration-150 ease-in-out"
+            : "h-16 transition-[height] duration-200 ease-in-out"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -87,7 +87,7 @@ export const Header = () => {
 
             {/* Mobile menu, show/hide based on menu state */}
             <div
-              className={`${menuClasses} sm:flex sm:flex-row sm:static sm:w-auto sm:bg-transparent sm:py-0 sm:space-y-0 sm:translate-y-0 sm:opacity-100 text-white sm:gap-4`}
+              className={`${menuClasses} sm:flex sm:flex-row sm:static sm:w-auto sm:bg-transparent sm:py-0 sm:space-y-0 sm:translate-y-0 sm:opacity-100 text-white sm:gap-4   transition-all duration-500 ease-in-out`}
             >
               {["Home", "About", "Project", "Services", "Contact"].map(
                 (item) => (
