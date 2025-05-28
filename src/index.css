@@ -11,6 +11,8 @@
 }
 
 /* Custom fonts */
+/* Temporarily disable custom fonts until files are available */
+/*
 @font-face {
   font-family: 'Calendas Plus';
   src: url('/fonts/Calendas-Plus.woff2') format('woff2');
@@ -22,6 +24,7 @@
   src: url('/fonts/OverusedGrotesk-Regular.woff2') format('woff2');
   font-display: swap;
 }
+*/
 
 /* Reset styles */
 * {
