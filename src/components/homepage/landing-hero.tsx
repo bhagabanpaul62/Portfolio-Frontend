@@ -60,9 +60,8 @@ const exampleImages = [
   },
 ]
 
-function LandingHero() {
-  return (
-    <section className="w-full h-screen overflow-hidden md:overflow-visible flex flex-col items-center justify-center relative z-10 ">
+function LandingHero() {  return (
+    <section className="w-full min-h-screen flex flex-col items-center justify-center relative z-10">
       <Floating sensitivity={-0.5} className="h-full">
         <FloatingElement
           depth={0.5}
@@ -151,7 +150,7 @@ function LandingHero() {
                 className="flex whitespace-pre"
                 transition={{ type: "spring", damping: 30, stiffness: 400 }}
               >
-                i am{" "}
+                I am{" "}
               </motion.span>
               <TextRotate
                 texts={[

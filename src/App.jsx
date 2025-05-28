@@ -7,12 +7,15 @@ import "./index.css";
 
 function App() {
   return (
-    <div className=" bg-black text-white">
+    <div className="min-h-screen bg-black text-white relative">
       <SplashCursor>
-        <Header></Header>
-        <LandingHero></LandingHero>
-        <About></About>
-       
+        <div className="relative z-10">
+          <Header />
+          <main className="relative">
+            <LandingHero />
+            <About />
+          </main>
+        </div>
       </SplashCursor>
     </div>
   );

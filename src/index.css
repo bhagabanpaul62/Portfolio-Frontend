@@ -31,9 +31,10 @@
 }
 
 html, body {
-  height: 100%;
+  min-height: 100%;
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: hidden; /* Only hide horizontal overflow */
+  overflow-y: auto; /* Explicitly enable vertical scrolling */
 }
 
 body {
