@@ -12,7 +12,6 @@ export const Header = () => {
       if (window.innerWidth >= 638) {
         setMenu(false); // auto-close menu on desktop
       }
-
     };
 
     window.addEventListener("resize", handleResize);
@@ -45,10 +44,12 @@ export const Header = () => {
     };
   }, []);
   const menuClasses = menu
-    ? `flex flex-col items-center justify-center fixed top-16 left-0 w-full py-6 space-y-4 transition-all duration-300 ease-in-out opacity-100 translate-y-0 ${
-        !scrolled ? "backdrop-blur-md" : " "
+    ? `flex flex-col items-center justify-center fixed top-16 left-0 w-full py-6 space-y-4 transition-all duration-500 ease-in-out opacity-100 translate-y-0 ${
+        !scrolled
+          ? "backdrop-blur-[8px] "
+          : "backdrop-blur-none bg-transparent"
       }`
-    : "hidden opacity-0 -translate-y-4";
+    : "hidden opacity-0 -translate-y-4 backdrop-blur-none bg-transparent transition-all duration-500 ease-in-out";
 
   return (
     <header
@@ -64,7 +65,11 @@ export const Header = () => {
             ? "backdrop-blur-md bg-gray-700/70 shadow-lg mx-auto max-w-[93vw] rounded-2xl m-2 scale-100"
             : "scale-105"
         }
-        ${menu ? "h-[50vh]" : ""}`}
+        ${
+          menu
+            ? "h-[50vh] transition-[height] duration-500 ease-in-out"
+            : "h-16 transition-[height] duration-500 ease-in-out"
+        }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
