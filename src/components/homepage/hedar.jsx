@@ -4,12 +4,12 @@ import localImage from "../../assets/image.jpg";
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
-  const [isMobile, setMobile] = useState(window.innerWidth < 638);
+  const [isMobile, setMobile] = useState(window.innerWidth < 1024);
 
   useEffect(() => {
     const handleResize = () => {
-      setMobile(window.innerWidth < 638);
-      if (window.innerWidth >= 638) {
+      setMobile(window.innerWidth < 1024);
+      if (window.innerWidth >= 1024) {
         setMenu(false); // auto-close menu on desktop
       }
     };
@@ -44,13 +44,11 @@ export const Header = () => {
     };
   }, []);
   const menuClasses = menu
-    ? `flex flex-col items-center justify-center fixed top-16 left-0 w-full py-6 space-y-4 transition-all duration-500 ease-in-out opacity-100 translate-y-0 ${
-        !scrolled
-          ? "backdrop-blur-[8px] "
-          : "backdrop-blur-none bg-transparent"
-      }`
-    : "hidden opacity-0 -translate-y-4 backdrop-blur-none bg-transparent  transition-all duration-500 ease-in-out";
-
+    ? `flex flex-col items-center justify-center fixed top-16 left-0 w-full py-6 space-y-4
+     transition-all duration-500 ease-in-out opacity-100 translate-y-0
+     ${!scrolled ? "backdrop-blur-[8px]" : "backdrop-blur-none bg-transparent"}`
+    : `hidden opacity-0 -translate-y-4 backdrop-blur-none bg-transparent
+     transition-[backdrop] duration-500 ease-in-out`;
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
@@ -67,7 +65,7 @@ export const Header = () => {
         }
         ${
           menu
-            ? "h-[50vh] transition-[height] duration-150 ease-in-out"
+            ? "h-[50vh] transition-[height] duration-100 ease-in-out"
             : "h-16 transition-[height] duration-200 ease-in-out"
         }`}
       >
@@ -84,26 +82,24 @@ export const Header = () => {
               />
               <h1 className="text-lg font-bold text-white">Bhagaban Paul</h1>
             </div>
-
-            {/* Mobile menu, show/hide based on menu state */}
+            {/* Mobile menu, show/hide based on menu state */}{" "}
             <div
-              className={`${menuClasses} sm:flex sm:flex-row sm:static sm:w-auto sm:bg-transparent sm:py-0 sm:space-y-0 sm:translate-y-0 sm:opacity-100 text-white sm:gap-4   transition-all duration-500 ease-in-out`}
+              className={`${menuClasses} lg:flex lg:flex-row lg:static lg:w-auto lg:bg-transparent lg:py-0 lg:space-y-0 lg:translate-y-0 lg:opacity-100 text-white lg:gap-4 transition-all duration-500 ease-in-out`}
             >
               {["Home", "About", "Project", "Services", "Contact"].map(
                 (item) => (
                   <a
                     key={item}
                     href="#"
-                    className="hover:text-[#0015FF] px-3 py-2 rounded-md text-lg font-medium transition-colors duration-300"
+                    className="hover:text-[#0015FF] px-3 py-2 rounded-md text-base lg:text-lg font-medium transition-colors duration-300"
                   >
                     {item}
                   </a>
                 )
               )}
             </div>
-
             <div className="flex justify-center items-center">
-              <button className="text-white bg-[#0015FF] hover:bg-blue-700 font-medium rounded-lg text-lg px-5 py-2.5 text-center transition-colors duration-300">
+              <button className="text-white bg-[#0015FF] hover:bg-blue-700 font-medium rounded-lg text-sm lg:text-base px-3 lg:px-5 py-2 lg:py-2.5 text-center transition-colors duration-300 whitespace-nowrap">
                 Book a Call
               </button>
             </div>
