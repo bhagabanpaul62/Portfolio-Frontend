@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { About } from "../aboutPage/about";
 
-import { LandingHero } from "../homepage/landing-hero";
+import { LandingHero } from "./landing-hero";
 export const Home = () => {
   const aboutRef = useRef(null);
   const scrollToAbout = () => {
