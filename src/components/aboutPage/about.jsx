@@ -1,6 +1,7 @@
 import localImage from "../../assets/Untitled-2.png";
 import { TechnicalExpertise } from "./technical-expertise";
 
+
 const styles = `
   @keyframes progressFill {
     from { width: 0; }
@@ -14,7 +15,7 @@ const styles = `
   }
 `;
 
-export const About = () => {
+export const About = ({ref}) => {
   const skillCategories = [
     {
       title: "Programming Languages",
@@ -66,8 +67,11 @@ export const About = () => {
   return (
     <>
       <style>{styles}</style>
-      <div className="w-full min-h-screen flex flex-col gap-8 px-4 lg:px-8">
-        <div className="flex flex-col-reverse lg:flex-row  gap-8 mt-40">
+      <div
+        ref={ref}
+        className="w-full min-h-screen flex flex-col gap-8 px-4 lg:px-8"
+      >
+        <div className="flex flex-col-reverse lg:flex-row  gap-8 mt-10">
           {/* Left Section - About Me */}
           <div className="w-full lg:w-1/2 p-4 lg:p-12">
             <div className="relative p-8 backdrop-blur-xl bg-gray-900/80 shadow-2xl rounded-2xl border border-gray-700/50 overflow-hidden h-full">
@@ -205,7 +209,7 @@ export const About = () => {
         </div>
 
         {/* Technical Expertise Section */}
-        
+        <TechnicalExpertise />
       </div>
     </>
   );

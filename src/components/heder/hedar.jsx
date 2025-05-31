@@ -1,5 +1,31 @@
 import { useEffect, useRef, useState } from "react";
 import localImage from "../../assets/image.jpg";
+import { Link, NavLink } from "react-router-dom";
+
+const links = [
+  {
+  name:"Home",
+  path :"/",
+  },
+  {
+    name:"About",
+    path:"/about",
+  },
+  {
+    name:"Project",
+    path:"/project"
+  },
+  {
+    name:"Services",
+    path:"/services"
+  },
+  {
+    name:"Contact",
+    path:"/contact"
+  },
+
+
+]
 
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -86,22 +112,20 @@ export const Header = () => {
             <div
               className={`${menuClasses} lg:flex lg:flex-row lg:static lg:w-auto lg:bg-transparent lg:py-0 lg:space-y-0 lg:translate-y-0 lg:opacity-100 text-white lg:gap-4 transition-all duration-500 ease-in-out`}
             >
-              {["Home", "About", "Project", "Services", "Contact"].map(
-                (item) => (
-                  <a
-                    key={item}
-                    href="#"
-                    className="hover:text-[#0015FF] px-3 py-2 rounded-md text-base lg:text-lg font-medium transition-colors duration-300"
-                  >
-                    {item}
-                  </a>
-                )
-              )}
+              {links.map((item) => (
+                <NavLink
+                  key={item.name}
+                  to={item.path}
+                  className={({ isActive }) =>( `hover:text-[#0015FF] px-3 py-2 rounded-md text-base lg:text-lg font-medium transition-colors duration-300 ${isActive ? "text-[#0015FF]" : "text-white"}`)}
+                >
+                  {item.name}
+                </NavLink>
+              ))}
             </div>
             <div className="flex justify-center items-center">
-              <button className="text-white bg-[#0015FF] hover:bg-blue-700 font-medium rounded-lg text-sm lg:text-base px-3 lg:px-5 py-2 lg:py-2.5 text-center transition-colors duration-300 whitespace-nowrap">
+              <Link to="/bookACall"  className="text-white bg-[#0015FF] hover:bg-blue-700 font-medium rounded-lg text-sm lg:text-base px-3 lg:px-5 py-2 lg:py-2.5 text-center transition-colors duration-300 whitespace-nowrap">
                 Book a Call
-              </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -12,6 +12,7 @@ import localImage4 from "../../assets/IMG_0592.JPG"
 
 
 
+
 const exampleImages = [
   {
       url: localImage4,
@@ -60,8 +61,13 @@ const exampleImages = [
   },
 ]
 
-function LandingHero() {  return (
-    <section className="w-full min-h-screen flex flex-col items-center justify-center relative z-10">
+function LandingHero({ onAboutClick}) {  
+ 
+
+ 
+
+  return (
+    <section className="w-full min-h-screen flex flex-col items-center justify-center relative z-10 mb-20">
       <Floating sensitivity={-0.5} className="h-full">
         <FloatingElement
           depth={0.5}
@@ -195,6 +201,7 @@ function LandingHero() {  return (
             className="sm:text-base md:text-lg lg:text-xl font-semibold tracking-tight text-background bg-foreground px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 lg:px-8 lg:py-3 rounded-full z-20 shadow-2xl font-calendas border-2 border-white"
             animate={{ opacity: 1, y: 0 }}
             initial={{ opacity: 0, y: 20 }}
+            onClick={ onAboutClick}
             transition={{
               duration: 0.2,
               ease: "easeOut",
@@ -205,9 +212,9 @@ function LandingHero() {  return (
               scale: 1.05,
               transition: { type: "spring", damping: 30, stiffness: 400 },
             }}
-          >            <a href="/docs/introduction">
+          >            
               About Me <span className="font-serif ml-1">→</span>
-            </a>
+            
           </motion.button>
           <motion.button
             className="sm:text-base md:text-lg lg:text-xl font-semibold tracking-tight text-white bg-[#0015ff] px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 lg:px-8 lg:py-3 rounded-full z-20 shadow-2xl font-calendas"
@@ -224,7 +231,7 @@ function LandingHero() {  return (
               transition: { type: "spring", damping: 30, stiffness: 400 },
             }}
           >
-            <a href="https://github.com/bhagabanpaul62">★ on GitHub</a>
+            <a href="https://github.com/bhagabanpaul62">★ My Services</a>
           </motion.button>
         </div>
       </div>

@@ -1,25 +1,57 @@
+import { NavLink } from "react-router-dom";
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
+  const links = [
+    {
+      name: "Home",
+      path: "/",
+    },
+    {
+      name: "About",
+      path: "/about",
+    },
+    {
+      name: "Project",
+      path: "/project",
+    },
+    {
+      name: "Services",
+      path: "/services",
+    },
+    {
+      name: "Contact",
+      path: "/contact",
+    },
+  ];
   const footerLinks = {
-    quickLinks: [
-      { name: "Home", href: "#" },
-      { name: "About", href: "#" },
-      { name: "Projects", href: "#" },
-      { name: "Services", href: "#" },
-      { name: "Contact", href: "#" },
-    ],
     services: [
-      { name: "Web Development", href: "#" },
-      { name: "App Development", href: "#" },
-      { name: "UI/UX Design", href: "#" },
-      { name: "Machine Learning", href: "#" },
+      { name: "Web Development", path: "#" },
+      { name: "App Development", path: "#" },
+      { name: "UI/UX Design", path: "#" },
+      { name: "Machine Learning", path: "#" },
     ],
     socialLinks: [
-      { name: "GitHub", href: "#", icon: "github" },
-      { name: "LinkedIn", href: "#", icon: "linkedin" },
-      { name: "Twitter", href: "#", icon: "twitter" },
-      { name: "Instagram", href: "#", icon: "instagram" },
+      {
+        name: "GitHub",
+        href: "https://github.com/bhagabanpaul62",
+        icon: "github",
+      },
+      {
+        name: "LinkedIn",
+        href: "https://www.linkedin.com/in/bhagaban-paul/",
+        icon: "linkedin",
+      },
+      {
+        name: "Twitter",
+        href: "https://x.com/bhagaban__paul",
+        icon: "twitter",
+      },
+      {
+        name: "Instagram",
+        href: "https://www.instagram.com/bhagabanpaul62/",
+        icon: "instagram",
+      },
     ],
   };
 
@@ -45,6 +77,7 @@ export const Footer = () => {
                   key={link.name}
                   href={link.href}
                   className="text-gray-400 hover:text-blue-400 transition-colors duration-300"
+                  target="_blank"
                 >
                   {link.name}
                 </a>
@@ -56,14 +89,16 @@ export const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-white">Quick Links</h3>
             <ul className="space-y-2">
-              {footerLinks.quickLinks.map((link) => (
+              {links.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-gray-400 hover:text-blue-400 transition-colors duration-300"
+                  <NavLink
+                    to={link.path}
+                    className={() =>
+                      `text-gray-400 hover:text-blue-400 transition-colors duration-300`
+                    }
                   >
                     {link.name}
-                  </a>
+                  </NavLink>
                 </li>
               ))}
             </ul>
