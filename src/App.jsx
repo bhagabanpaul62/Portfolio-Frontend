@@ -1,6 +1,7 @@
+import { useEffect, useState } from "react";
 import { SplashCursor } from "./components/background/SplashCursor";
 import { Header } from "./components/heder/hedar";
-import {Home} from "./components/homepage/home"
+import { Home } from "./components/homepage/home";
 import { Footer } from "./components/footer/footer";
 import "./index.css";
 import {
@@ -11,50 +12,75 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { AboutMe } from "./components/aboutPage/aboutMe";
-import {Services} from "./components/services/services"
+import { Services } from "./components/services/services";
 import { Project } from "./components/Projects/project";
+import { ProjectPage } from "./components/Projects/projectPage";
 import { Contact } from "./components/Contact/contact";
 import { PageNotFound } from "./components/pageNotFound/pageNotFound";
 import { BookACall } from "./components/bookACalll/bookAcall";
+import { ComingSoon } from "./components/pageNotFound/comingsoon";
+import Dashboard from "./components/admin/dashbord-overview/dashbord";
+import { Login } from "./components/admin/login/Login";
+import EditProject from "./components/admin/projectManagement/editproject";
+import { AllRouteLinks } from "./components/test/allRouteLink";
+import UploadNewProject from "./components/admin/projectManagement/uploadNewProject";
 
-// Create a Layout component that includes Header and Footer
-const Layout = () => {
+const AdminLayout = () => {
   return (
     <>
-      <Header />
       <Outlet />
       <Footer />
     </>
   );
 };
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
-      {/* <Route path="/home" element={<Home />}></Route> */}
-      <Route index element={<Home />} />
-      <Route path="/about" element={<AboutMe />}></Route>
-      <Route path="/project" element={<Project />}></Route>
-      <Route path="/services" element={<Services />}></Route>
-      <Route path="/contact" element={<Contact />}></Route>
-      <Route path="/bookacall" element={<BookACall/>}></Route>
-      <Route path="*" element={<PageNotFound />}></Route>
-
-    </Route>
-  )
+const Layout = () => (
+  <>
+    <Header />
+    <Outlet />
+    <Footer />
+  </>
 );
 
-
-
 function App() {
+  const [isAuth, setIsAuth] = useState(true);
 
+  // Load auth status from localStorage
+  // useEffect(() => {
+  //   const auth = localStorage.getItem("isAuth");
+  //   setIsAuth(auth === "true");
+  // }, []);
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route>
+        <Route path="/" element={<Layout />}>
+          {/* Public Routes */}
+          <Route index element={<Home />} />
+          <Route path="about" element={<AboutMe />} />
+          <Route path="project" element={<Project />} />
+          <Route path="project/:id" element={<ProjectPage />} />
+          <Route path="services" element={<Services />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="bookacall" element={<BookACall />} />
+          <Route path="comingsoon" element={<ComingSoon />} />
+          <Route path="test" element={<AllRouteLinks />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Route>
+        {/* Admin Routes */}
+        <Route path="admin" element={<AdminLayout />}>
+          <Route index element={isAuth ? <Dashboard /> : <Login />} />
+          <Route path="editproject" element={<EditProject />}></Route>
+          <Route path="uploadproject" element={<UploadNewProject />}></Route>
+        </Route>
+      </Route>
+    )
+  );
 
   return (
     <div className="min-h-screen bg-black text-white relative">
       <SplashCursor>
-   
-        <RouterProvider router={router}/>
-    
+        <RouterProvider router={router} />
       </SplashCursor>
     </div>
   );
