@@ -291,7 +291,7 @@ export const About = ({ ref }) => {
         </div>
 
         {/* Technical Expertise Section */}
-        <TechnicalExpertise />
+        
       </motion.div>
     </>
   );

@@ -9,6 +9,7 @@ import localImage1 from "../../assets/IMG_0589.JPG"
 import localImage2 from "../../assets/IMG_0590.JPG"
 import localImage3 from "../../assets/IMG_0588.jpeg"
 import localImage4 from "../../assets/IMG_0592.JPG"
+import { Link } from "react-router-dom";
 
 
 
@@ -231,7 +232,7 @@ function LandingHero({ onAboutClick}) {
               transition: { type: "spring", damping: 30, stiffness: 400 },
             }}
           >
-            <a href="https://github.com/bhagabanpaul62">★ My Services</a>
+            <Link to="/services">★ My Services</Link>
           </motion.button>
         </div>
       </div>

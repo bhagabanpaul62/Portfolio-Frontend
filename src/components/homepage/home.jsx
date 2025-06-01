@@ -3,6 +3,7 @@ import { About } from "../aboutPage/about";
 
 import { LandingHero } from "./landing-hero";
 import { FeaturedProjects } from "../Projects/featuredProject";
+import { TechnicalExpertise } from "../aboutPage/technical-expertise";
 export const Home = () => {
   const aboutRef = useRef(null);
   const scrollToAbout = () => {
@@ -14,6 +15,7 @@ export const Home = () => {
         <LandingHero onAboutClick={scrollToAbout} />
         <About ref={aboutRef} />
         <FeaturedProjects isHomePage={true}/>
+        <TechnicalExpertise/>
       </main>
     </div>
   );
