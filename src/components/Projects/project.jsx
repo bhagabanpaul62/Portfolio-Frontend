@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { AllProject } from "./AllProjects";
+import { AllProjects } from "./AllProjects";
 import { FeaturedProjects } from "./featuredProject";
 export const Project = () => {
   const allProjectRef = useRef(null);
@@ -15,7 +15,7 @@ export const Project = () => {
       />
 
       {/* Search and Filter Section */}
-      <AllProject ref={allProjectRef} />
+      <AllProjects ref={allProjectRef} />
     </div>
   );
 };

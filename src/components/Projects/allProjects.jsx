@@ -75,7 +75,7 @@ const projects = [
   },
 ];
 
-export const AllProject = forwardRef((props, ref) => {
+export const AllProjects = forwardRef((props, ref) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
