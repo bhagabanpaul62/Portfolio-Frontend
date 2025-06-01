@@ -75,11 +75,9 @@ const projects = [
   },
 ];
 
-export const AllProject = ({ ref }) => {
+export const AllProject = forwardRef((props, ref) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-
-  const featuredProjects = projects.filter((project) => project.featured);
 
   const categories = [
     "All",
@@ -123,10 +121,7 @@ export const AllProject = ({ ref }) => {
   return (
     <>
       {/* Modern Header Section */}
-      <div
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 "
-        ref={ref}
-      >
+      <div ref={ref} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 ">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -293,4 +288,4 @@ export const AllProject = ({ ref }) => {
       </motion.div>
     </>
   );
-};
+});

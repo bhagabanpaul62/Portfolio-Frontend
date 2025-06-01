@@ -10,7 +10,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import { About } from "./components/aboutPage/about";
+import { AboutMe } from "./components/aboutPage/aboutMe";
 import {Services} from "./components/services/services"
 import { Project } from "./components/Projects/project";
 import { Contact } from "./components/Contact/contact";
@@ -33,7 +33,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<Layout />}>
       {/* <Route path="/home" element={<Home />}></Route> */}
       <Route index element={<Home />} />
-      <Route path="/about" element={<About />}></Route>
+      <Route path="/about" element={<AboutMe />}></Route>
       <Route path="/project" element={<Project />}></Route>
       <Route path="/services" element={<Services />}></Route>
       <Route path="/contact" element={<Contact />}></Route>
