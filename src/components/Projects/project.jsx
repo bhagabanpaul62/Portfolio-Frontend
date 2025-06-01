@@ -1,6 +1,6 @@
 import { useRef } from "react";
-import { AllProject } from "./AllProjects.jsx";
-import { FeaturedProjects } from "./featuredProject.jsx";
+import { AllProject } from "./AllProjects";
+import { FeaturedProjects } from "./featuredProject";
 export const Project = () => {
   const allProjectRef = useRef(null);
   const scrollToAllProjects = () => {

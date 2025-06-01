@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { forwardRef, useState } from "react";
 const projects = [
   {
     title: "E-Commerce Platform",
