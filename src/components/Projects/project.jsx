@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { AllProjects } from "./AllProjects";
+import { AllProjects } from "./AllProjects.jsx";
 import { FeaturedProjects } from "./featuredProject";
 export const Project = () => {
   const allProjectRef = useRef(null);
