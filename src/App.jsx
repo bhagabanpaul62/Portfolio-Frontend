@@ -24,10 +24,12 @@ import { Login } from "./components/admin/login/Login";
 import EditProject from "./components/admin/projectManagement/editproject";
 import { AllRouteLinks } from "./components/test/allRouteLink";
 import UploadNewProject from "./components/admin/projectManagement/uploadNewProject";
+import { Scroll } from "./components/homepage/scroll";
 
 const AdminLayout = () => {
   return (
     <>
+      <Scroll />
       <Outlet />
       <Footer />
     </>
@@ -36,6 +38,7 @@ const AdminLayout = () => {
 
 const Layout = () => (
   <>
+    <Scroll />
     <Header />
     <Outlet />
     <Footer />
