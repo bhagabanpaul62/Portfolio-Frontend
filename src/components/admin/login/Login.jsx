@@ -1,9 +1,35 @@
-import React from "react";
+import React, { useContext, useRef } from "react";
 import { motion } from "framer-motion";
 import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
+import { AuthContext } from "../../../context/authContecxt";
 
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
+  const { login, session, loading } = useContext(AuthContext);
+  const email = useRef(null);
+  const password = useRef(null);
+
+  const handelSubmit = async (e) => {
+    e.preventDefault(); // Prevent form refresh
+    const emailAuth = email.current.value;
+    const passwordAuth = password.current.value;
+   
+    try{
+      await login(emailAuth ,passwordAuth);
+      alert("login successful ")
+      
+    }catch(err) {
+      console.error("login error :" ,err.message)
+    }
+    //clear the input fields
+    email.current.value = "";
+    password.current.value = "";
+   
+  };
+
+ 
+
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center  p-4">
@@ -29,7 +55,12 @@ const Login = () => {
           </div>
 
           {/* Form */}
-          <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
+          <form
+            onSubmit={(e) => {
+              handelSubmit(e);
+            }}
+            className="space-y-6"
+          >
             {/* Email Field */}
             <div>
               <label className="text-gray-300 text-sm font-medium mb-2 block">
@@ -42,6 +73,7 @@ const Login = () => {
                   className="w-full bg-gray-700 text-white rounded-lg pl-10 pr-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
                   placeholder="Enter your email"
                   required
+                  ref={email}
                 />
               </div>
             </div>
@@ -58,6 +90,7 @@ const Login = () => {
                   className="w-full bg-gray-700 text-white rounded-lg pl-10 pr-12 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
                   placeholder="Enter your password"
                   required
+                  ref={password}
                 />
                 <button
                   type="button"

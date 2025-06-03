@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SplashCursor } from "./components/background/SplashCursor";
 import { Header } from "./components/heder/hedar";
 import { Home } from "./components/homepage/home";
@@ -26,6 +26,8 @@ import { AllRouteLinks } from "./components/test/allRouteLink";
 import UploadNewProject from "./components/admin/projectManagement/uploadNewProject";
 import { Scroll } from "./components/homepage/scroll";
 
+import { AuthContext } from "./context/authContecxt";
+
 const AdminLayout = () => {
   return (
     <>
@@ -46,13 +48,13 @@ const Layout = () => (
 );
 
 function App() {
-  const [isAuth, setIsAuth] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
+  const{session , loading }= useContext(AuthContext);
 
-  // Load auth status from localStorage
-  // useEffect(() => {
-  //   const auth = localStorage.getItem("isAuth");
-  //   setIsAuth(auth === "true");
-  // }, []);
+
+  
+
+
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -72,9 +74,15 @@ function App() {
         </Route>
         {/* Admin Routes */}
         <Route path="admin" element={<AdminLayout />}>
-          <Route index element={isAuth ? <Dashboard /> : <Login />} />
-          <Route path="editproject" element={<EditProject />}></Route>
-          <Route path="uploadproject" element={<UploadNewProject />}></Route>
+          <Route index element={session ? <Dashboard /> : <Login />} />
+          <Route
+            path="editproject"
+            element={session ? <EditProject /> : <Login />}
+          ></Route>
+          <Route
+            path="uploadproject"
+            element={session ? <UploadNewProject /> : <Login />}
+          ></Route>
         </Route>
       </Route>
     )
