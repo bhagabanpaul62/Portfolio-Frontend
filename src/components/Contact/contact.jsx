@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { DataContext } from "../../context/DataContetx";
 
 export const Contact = () => {
+  const { submitContactUs } = useContext(DataContext);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -32,7 +34,7 @@ export const Contact = () => {
     setIsSubmitting(true);
     try {
       // Simulating API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await submitContactUs(formData);
       setSubmitStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error) {

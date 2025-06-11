@@ -1,43 +1,13 @@
 import { motion } from "framer-motion";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { DataContext } from "../../context/DataContetx";
 
-const featuredProjects = [
-  {
-    title: "E-Commerce Platform",
-    description:
-      "A full-stack e-commerce platform with real-time inventory management, secure payments, and responsive design.",
-    image:
-      "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80",
-    technologies: ["React", "Node.js", "MongoDB", "Redux", "Stripe"],
-    liveDemo: "https://demo-url.com",
-    githubLink: "https://github.com/username/project",
-    category: "Full Stack",
-  },
-  {
-    title: "AI Image Generator",
-    description:
-      "An AI-powered image generation tool using state-of-the-art machine learning models for creative content creation.",
-    image:
-      "https://images.unsplash.com/photo-1677442135703-1787c200b0d7?w=800&q=80",
-    technologies: ["Python", "TensorFlow", "React", "FastAPI"],
-    liveDemo: "https://demo-url.com",
-    githubLink: "https://github.com/username/project",
-    category: "Machine Learning",
-  },
-  {
-    title: "Task Management Dashboard",
-    description:
-      "A real-time collaborative task management system with drag-and-drop interface and team features.",
-    image:
-      "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800&q=80",
-    technologies: ["Next.js", "TypeScript", "Prisma", "PostgreSQL"],
-    liveDemo: "https://demo-url.com",
-    githubLink: "https://github.com/username/project",
-    category: "Web App",
-  },
-];
+
 
 export const FeaturedProjects = ({ onMoreProjectClick, isHomePage }) => {
+
+  const { projects, loading  } = useContext(DataContext);
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
@@ -61,8 +31,10 @@ export const FeaturedProjects = ({ onMoreProjectClick, isHomePage }) => {
     },
   };
 
-  if (!featuredProjects || featuredProjects.length === 0) {
-    return null;
+  if (!Array.isArray(projects) || projects.length === 0) {
+    return (
+      <div className="text-center py-20 text-gray-400">Loading projects...</div>
+    );
   }
   return (
     <>
@@ -97,7 +69,7 @@ export const FeaturedProjects = ({ onMoreProjectClick, isHomePage }) => {
         className="mb-20"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {featuredProjects.map((project, index) => (
+          {projects.map((project, index) => (
             <motion.div
               key={index}
               variants={projectVariants}
@@ -110,7 +82,11 @@ export const FeaturedProjects = ({ onMoreProjectClick, isHomePage }) => {
                 <motion.img
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.4 }}
-                  src={project.image}
+                  src={
+                    project.images && project.images.length > 0
+                      ? project.images[0]
+                      : "/placeholder.jpg"
+                  }
                   alt={project.title}
                   className="w-full h-full object-cover"
                 />
@@ -118,11 +94,13 @@ export const FeaturedProjects = ({ onMoreProjectClick, isHomePage }) => {
               </div>
 
               {/* Project Info */}
-              <div className="p-6 space-y-4">
+              <div className="p-6 space-y-4 cursor-pointer">
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-100 mb-2">
-                    {project.title}
-                  </h3>
+                  <Link to={`/project/${project.id}`}>
+                    <h3 className="text-xl font-semibold text-gray-100 mb-2">
+                      {project.title}
+                    </h3>
+                  </Link>
                   <p className="text-gray-400 text-sm line-clamp-2">
                     {project.description}
                   </p>

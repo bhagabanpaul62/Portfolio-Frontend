@@ -1,14 +1,18 @@
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion ,AnimatePresence } from "framer-motion";
+import { useContext, useState } from "react";
+import { DataContext } from "../../context/DataContetx";
 
 export const BookACall = () => {
+  const { submitBookACall } = useContext(DataContext);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    projectType: "Web Development",
+    project_type: "Web Development",
     message: "",
-    preferredDate: "",
-    preferredTime: "",
+    preferred_date: "",
+    preferred_time: "",
   });
 
   const projectTypes = [
@@ -29,10 +33,23 @@ export const BookACall = () => {
     "04:00 PM",
   ];
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission here
-    console.log(formData);
+    setIsSubmitting(true);
+    const { error } = await submitBookACall(formData);
+    setSubmitStatus("success");
+    setIsSubmitting(false);
+    if (error) throw error;
+    setFormData({
+      name: "",
+      email: "",
+      project_type: "Web Development",
+      message: "",
+      preferred_date: "",
+      preferred_time: "",
+    });
+    setTimeout(() => setSubmitStatus(null), 3000);
   };
 
   const handleChange = (e) => {
@@ -126,8 +143,8 @@ export const BookACall = () => {
                     Project Type
                   </label>
                   <select
-                    name="projectType"
-                    value={formData.projectType}
+                    name="project_type"
+                    value={formData.project_type}
                     onChange={handleChange}
                     className="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-lg
                              focus:outline-none focus:border-blue-500/50 text-gray-300"
@@ -168,8 +185,8 @@ export const BookACall = () => {
                   </label>
                   <input
                     type="date"
-                    name="preferredDate"
-                    value={formData.preferredDate}
+                    name="preferred_date"
+                    value={formData.preferred_date}
                     onChange={handleChange}
                     min={new Date().toISOString().split("T")[0]}
                     className="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-lg
@@ -189,12 +206,12 @@ export const BookACall = () => {
                         type="button"
                         onClick={() =>
                           handleChange({
-                            target: { name: "preferredTime", value: time },
+                            target: { name: "preferred_time", value: time },
                           })
                         }
                         className={`px-4 py-3 rounded-lg text-sm font-medium 
                                   ${
-                                    formData.preferredTime === time
+                                    formData.preferred_time === time
                                       ? "bg-blue-500/20 text-blue-400 border border-blue-500/50"
                                       : "bg-gray-900/50 text-gray-400 border border-gray-700/50 hover:border-gray-600/50"
                                   }`}
@@ -217,6 +234,24 @@ export const BookACall = () => {
                 </button>
               </div>
             </form>
+            <AnimatePresence>
+              {submitStatus && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className={`mt-4 p-4 rounded-lg ${
+                    submitStatus === "success"
+                      ? "bg-green-500/10 text-green-400 border border-green-500/20"
+                      : "bg-red-500/10 text-red-400 border border-red-500/20"
+                  }`}
+                >
+                  {submitStatus === "success"
+                    ? "Thanks for your message! I'll get back to you soon."
+                    : "Oops! Something went wrong. Please try again."}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
 
           {/* Right Side - What to Expect */}

@@ -4,13 +4,21 @@ import { FiUpload, FiX, FiSave } from "react-icons/fi";
 
 const EditProject = () => {
   const [formData, setFormData] = useState({
+    id: "",
     title: "",
     description: "",
-    technologies: "",
+    longDescription: "",
+    technologies: [],
+    features: [],
     githubLink: "",
     liveLink: "",
+    duration: "",
+    role: "",
+    impact: "",
+    challenges: "",
     category: "",
     status: "",
+    created_at: "",
   });
   const [images, setImages] = useState([]);
   const [existingImages, setExistingImages] = useState([]);
@@ -23,13 +31,21 @@ const EditProject = () => {
       // Replace with your actual API call
       setTimeout(() => {
         setFormData({
+          id: "12345",
           title: "Example Project",
           description: "This is an example project description.",
-          technologies: "React, Node.js, MongoDB",
+          longDescription: "This is a longer, more detailed description of the project that explains the background, purpose, and implementation details.",
+          technologies: ["React", "Node.js", "MongoDB"],
+          features: ["Responsive Design", "User Authentication", "Real-time Updates"],
           githubLink: "https://github.com/example",
           liveLink: "https://example.com",
+          duration: "3 months",
+          role: "Full Stack Developer",
+          impact: "Increased user engagement by 40%",
+          challenges: "Implementing real-time updates with WebSockets was challenging but rewarding.",
           category: "web",
           status: "completed",
+          created_at: "2023-05-15T10:30:00Z",
         });
         setExistingImages([
           { id: 1, url: "https://example.com/image1.jpg" },
@@ -47,6 +63,14 @@ const EditProject = () => {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const handleArrayInputChange = (e, field) => {
+    const values = e.target.value.split(',').map(item => item.trim());
+    setFormData(prev => ({
+      ...prev,
+      [field]: values
     }));
   };
 
@@ -103,6 +127,20 @@ const EditProject = () => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="bg-gray-900/40 backdrop-blur-sm border border-gray-800/50 rounded-xl p-6">
+            {/* Project ID - Read Only */}
+            <div className="mb-6">
+              <label className="block text-gray-300 text-sm font-medium mb-2">
+                Project ID
+              </label>
+              <input
+                type="text"
+                name="id"
+                value={formData.id}
+                readOnly
+                className="w-full bg-gray-800/50 text-gray-400 rounded-lg px-4 py-3 focus:outline-none transition-colors cursor-not-allowed"
+              />
+            </div>
+
             {/* Project Title */}
             <div className="mb-6">
               <label className="block text-gray-300 text-sm font-medium mb-2">
@@ -122,32 +160,62 @@ const EditProject = () => {
             {/* Project Description */}
             <div className="mb-6">
               <label className="block text-gray-300 text-sm font-medium mb-2">
-                Description
+                Short Description
               </label>
               <textarea
                 name="description"
                 value={formData.description}
                 onChange={handleInputChange}
-                rows="4"
+                rows="3"
                 className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
-                placeholder="Enter project description"
+                placeholder="Enter a brief project description"
                 required
+              />
+            </div>
+
+            {/* Long Description */}
+            <div className="mb-6">
+              <label className="block text-gray-300 text-sm font-medium mb-2">
+                Long Description
+              </label>
+              <textarea
+                name="longDescription"
+                value={formData.longDescription}
+                onChange={handleInputChange}
+                rows="6"
+                className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
+                placeholder="Enter a detailed project description"
               />
             </div>
 
             {/* Technologies */}
             <div className="mb-6">
               <label className="block text-gray-300 text-sm font-medium mb-2">
-                Technologies Used
+                Technologies Used (comma separated)
               </label>
               <input
                 type="text"
                 name="technologies"
-                value={formData.technologies}
-                onChange={handleInputChange}
+                value={formData.technologies.join(', ')}
+                onChange={(e) => handleArrayInputChange(e, 'technologies')}
                 className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
                 placeholder="e.g., React, Node.js, MongoDB"
                 required
+              />
+            </div>
+
+            {/* Features */}
+            <div className="mb-6">
+              <label className="block text-gray-300 text-sm font-medium mb-2">
+                Features (comma separated)
+              </label>
+              <input
+                type="text"
+                name="features"
+                value={formData.features.join(', ')}
+                onChange={(e) => handleArrayInputChange(e, 'features')}
+                className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
+                placeholder="e.g., Responsive Design, User Authentication, Real-time Updates"
               />
             </div>
 
@@ -168,7 +236,7 @@ const EditProject = () => {
               </div>
               <div>
                 <label className="block text-gray-300 text-sm font-medium mb-2">
-                  Live Link
+                  Live Demo Link
                 </label>
                 <input
                   type="url"
@@ -181,8 +249,68 @@ const EditProject = () => {
               </div>
             </div>
 
+            {/* Duration and Role */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div>
+                <label className="block text-gray-300 text-sm font-medium mb-2">
+                  Duration
+                </label>
+                <input
+                  type="text"
+                  name="duration"
+                  value={formData.duration}
+                  onChange={handleInputChange}
+                  className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
+                  placeholder="e.g., 3 months"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-300 text-sm font-medium mb-2">
+                  Your Role
+                </label>
+                <input
+                  type="text"
+                  name="role"
+                  value={formData.role}
+                  onChange={handleInputChange}
+                  className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
+                  placeholder="e.g., Full Stack Developer"
+                />
+              </div>
+            </div>
+
+            {/* Impact */}
+            <div className="mb-6">
+              <label className="block text-gray-300 text-sm font-medium mb-2">
+                Impact
+              </label>
+              <input
+                type="text"
+                name="impact"
+                value={formData.impact}
+                onChange={handleInputChange}
+                className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
+                placeholder="e.g., Increased user engagement by 40%"
+              />
+            </div>
+
+            {/* Challenges */}
+            <div className="mb-6">
+              <label className="block text-gray-300 text-sm font-medium mb-2">
+                Challenges
+              </label>
+              <textarea
+                name="challenges"
+                value={formData.challenges}
+                onChange={handleInputChange}
+                rows="3"
+                className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
+                placeholder="Describe challenges faced during development"
+              />
+            </div>
+
             {/* Category and Status */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div>
                 <label className="block text-gray-300 text-sm font-medium mb-2">
                   Category
@@ -214,6 +342,20 @@ const EditProject = () => {
                   <option value="planned">Planned</option>
                 </select>
               </div>
+            </div>
+
+            {/* Created At */}
+            <div>
+              <label className="block text-gray-300 text-sm font-medium mb-2">
+                Created At
+              </label>
+              <input
+                type="datetime-local"
+                name="created_at"
+                value={formData.created_at ? new Date(formData.created_at).toISOString().slice(0, 16) : ""}
+                onChange={handleInputChange}
+                className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
+              />
             </div>
           </div>
 

@@ -1,27 +1,31 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { FiUpload, FiX } from "react-icons/fi";
+import { DataContext } from "../../../context/DataContetx";
+
+import { supabase } from "../../../supabase";
 
 const UploadNewProject = () => {
-  const [formData, setFormData] = useState({
+  const { uploadProject } = useContext(DataContext);
+  const [fromData, setFromData] = useState({
     title: "",
     description: "",
+    long_description: "",
     technologies: "",
-    githubLink: "",
-    liveLink: "",
+    features: "",
+    github_link: "",
+    live_demo: "",
+    duration: "",
+    role: "",
+    impact: "",
+    challenges: "",
     category: "web",
     status: "completed",
+    created_at: new Date().toISOString().slice(0, 16),
   });
+
   const [images, setImages] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
 
   const handleImageDrop = (e) => {
     e.preventDefault();
@@ -39,14 +43,87 @@ const UploadNewProject = () => {
     ]);
   };
 
+  const uploadImageToSupabase = async () => {
+    const ImageUrls = [];
+
+    //image upload to supabase
+
+    for (const img of images) {
+      const file = img.file;
+      const filename = `${Date.now()}-${file.name}`;
+
+      const { data, error } = await supabase.storage
+        .from("project-image")
+        .upload(filename, file);
+      if (error) {
+        console.log("upload image ", error);
+        continue;
+      }
+
+      const { data: publicUrlData } = supabase.storage
+        .from("project-image")
+        .getPublicUrl(filename);
+
+      ImageUrls.push(publicUrlData.publicUrl);
+    }
+    return ImageUrls;
+  };
+
   const removeImage = (index) => {
     setImages((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handelOnChange = (e) => {
+    setFromData({ ...fromData, [e.target.name]: e.target.value });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your form submission logic here
-    console.log({ ...formData, images });
+    try {
+      const ImageUrls = await uploadImageToSupabase(); //image url uploding function call
+
+      const newProject = {
+        //add image data in project
+        ...fromData,
+        images: ImageUrls, //already an array
+        technologies: fromData.technologies
+          .split(",")
+          .map((tech) => tech.trim())
+          .filter(Boolean), //ensure clean array
+        features: fromData.features
+          .split(",")
+          .map((f) => f.trim())
+          .filter(Boolean), //ensure clean array
+        github_link: fromData.github_link,
+        live_demo: fromData.live_demo,
+        uploadDate: new Date(), // for `uploadDate` field
+      };
+
+      const { data, error } = await uploadProject(newProject); //insert new project
+      setFromData({
+        title: "",
+        description: "",
+        long_description: "",
+        technologies: "",
+        features: "",
+        github_link: "",
+        live_demo: "",
+        duration: "",
+        role: "",
+        impact: "",
+        challenges: "",
+        category: "web",
+        status: "completed",
+
+        created_at: new Date().toISOString().slice(0, 16),
+      });
+      if (error) throw error;
+
+      console.log("project upload successful", data);
+    } catch (error) {
+      console.error("Error uploading project:", error);
+      console.log("Error uploading project");
+    }
   };
 
   return (
@@ -72,43 +149,73 @@ const UploadNewProject = () => {
               <input
                 type="text"
                 name="title"
-                value={formData.title}
-                onChange={handleInputChange}
+                value={fromData.title}
+                onChange={handelOnChange}
                 className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
                 placeholder="Enter project title"
                 required
               />
             </div>
 
-            {/* Project Description */}
+            {/* Short Description */}
             <div className="mb-6">
               <label className="block text-gray-300 text-sm font-medium mb-2">
-                Description
+                Short Description
               </label>
               <textarea
                 name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                rows="4"
+                value={fromData.description}
+                onChange={handelOnChange}
+                rows="3"
                 className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
-                placeholder="Enter project description"
+                placeholder="Enter a brief project description"
                 required
+              />
+            </div>
+
+            {/* Long Description */}
+            <div className="mb-6">
+              <label className="block text-gray-300 text-sm font-medium mb-2">
+                Long Description
+              </label>
+              <textarea
+                name="long_description"
+                value={fromData.long_description}
+                onChange={handelOnChange}
+                rows="6"
+                className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
+                placeholder="Enter a detailed project description"
               />
             </div>
 
             {/* Technologies */}
             <div className="mb-6">
               <label className="block text-gray-300 text-sm font-medium mb-2">
-                Technologies Used
+                Technologies Used (comma separated)
               </label>
               <input
                 type="text"
                 name="technologies"
-                value={formData.technologies}
-                onChange={handleInputChange}
+                value={fromData.technologies}
+                onChange={handelOnChange}
                 className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
                 placeholder="e.g., React, Node.js, MongoDB"
                 required
+              />
+            </div>
+
+            {/* Features */}
+            <div className="mb-6">
+              <label className="block text-gray-300 text-sm font-medium mb-2">
+                Features (comma separated)
+              </label>
+              <input
+                type="text"
+                name="features"
+                value={fromData.features}
+                onChange={handelOnChange}
+                className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
+                placeholder="e.g., Responsive Design, User Authentication, Real-time Updates"
               />
             </div>
 
@@ -120,39 +227,99 @@ const UploadNewProject = () => {
                 </label>
                 <input
                   type="url"
-                  name="githubLink"
-                  value={formData.githubLink}
-                  onChange={handleInputChange}
+                  name="github_link"
                   className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
                   placeholder="https://github.com/..."
+                  value={fromData.github_link}
+                  onChange={handelOnChange}
                 />
               </div>
               <div>
                 <label className="block text-gray-300 text-sm font-medium mb-2">
-                  Live Link
+                  Live Demo Link
                 </label>
                 <input
                   type="url"
-                  name="liveLink"
-                  value={formData.liveLink}
-                  onChange={handleInputChange}
+                  name="live_demo"
                   className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
                   placeholder="https://..."
+                  value={fromData.live_demo}
+                  onChange={handelOnChange}
                 />
               </div>
             </div>
 
+            {/* Duration and Role */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div>
+                <label className="block text-gray-300 text-sm font-medium mb-2">
+                  Duration
+                </label>
+                <input
+                  type="text"
+                  name="duration"
+                  className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
+                  placeholder="e.g., 3 months"
+                  value={fromData.duration}
+                  onChange={handelOnChange}
+                />
+              </div>
+              <div>
+                <label className="block text-gray-300 text-sm font-medium mb-2">
+                  Your Role
+                </label>
+                <input
+                  type="text"
+                  name="role"
+                  className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
+                  placeholder="e.g., Full Stack Developer"
+                  value={fromData.role}
+                  onChange={handelOnChange}
+                />
+              </div>
+            </div>
+
+            {/* Impact */}
+            <div className="mb-6">
+              <label className="block text-gray-300 text-sm font-medium mb-2">
+                Impact
+              </label>
+              <input
+                type="text"
+                name="impact"
+                className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
+                placeholder="e.g., Increased user engagement by 40%"
+                value={fromData.impact}
+                onChange={handelOnChange}
+              />
+            </div>
+
+            {/* Challenges */}
+            <div className="mb-6">
+              <label className="block text-gray-300 text-sm font-medium mb-2">
+                Challenges
+              </label>
+              <textarea
+                name="challenges"
+                rows="3"
+                className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
+                placeholder="Describe challenges faced during development"
+                value={fromData.challenges}
+                onChange={handelOnChange}
+              />
+            </div>
+
             {/* Category and Status */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div>
                 <label className="block text-gray-300 text-sm font-medium mb-2">
                   Category
                 </label>
                 <select
                   name="category"
-                  value={formData.category}
-                  onChange={handleInputChange}
                   className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
+                  value={fromData.category}
+                  onChange={handelOnChange}
                 >
                   <option value="web">Web Development</option>
                   <option value="mobile">Mobile App</option>
@@ -166,15 +333,29 @@ const UploadNewProject = () => {
                 </label>
                 <select
                   name="status"
-                  value={formData.status}
-                  onChange={handleInputChange}
                   className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
+                  value={fromData.status}
+                  onChange={handelOnChange}
                 >
                   <option value="completed">Completed</option>
                   <option value="in-progress">In Progress</option>
                   <option value="planned">Planned</option>
                 </select>
               </div>
+            </div>
+
+            {/* Created At */}
+            <div>
+              <label className="block text-gray-300 text-sm font-medium mb-2">
+                Created At
+              </label>
+              <input
+                type="text"
+                name="created_at"
+                value={new Date().toISOString().slice(0, 16).replace("T", " ")}
+                className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
+                readOnly
+              />
             </div>
           </div>
 

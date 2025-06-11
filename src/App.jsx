@@ -48,7 +48,7 @@ const Layout = () => (
 );
 
 function App() {
-  const [isAuth, setIsAuth] = useState(false);
+  
   const{session , loading }= useContext(AuthContext);
 
 

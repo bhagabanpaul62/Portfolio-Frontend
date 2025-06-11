@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import localImage from "../../assets/Untitled-2.png";
 import { TechnicalExpertise } from "./technical-expertise";
+import { Link } from "react-router-dom";
 
 const styles = `
   @keyframes progressFill {
@@ -82,7 +83,7 @@ export const About = ({ ref }) => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="w-full lg:w-1/2 p-4 lg:p-12"
           >
-            <div className="relative p-8 backdrop-blur-xl bg-gray-900/80 shadow-2xl rounded-2xl border border-gray-700/50 overflow-hidden h-full">
+            <div className="relative p-8 backdrop-blur-xl  shadow-2xl rounded-2xl border border-gray-700/50 overflow-hidden h-full">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.5 }}
@@ -175,7 +176,7 @@ export const About = ({ ref }) => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="w-full lg:w-1/2 p-4 lg:p-12"
           >
-            <div className="p-8 backdrop-blur-xl bg-gray-900/80 shadow-2xl rounded-2xl border border-gray-700/50">
+            <div className="p-8 backdrop-blur-xl  shadow-2xl rounded-2xl border border-gray-700/50">
               {/* Profile Image */}
               <div className="relative w-full flex justify-center mb-10">
                 <motion.div
@@ -248,9 +249,13 @@ export const About = ({ ref }) => {
                     className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 transition-all duration-300
                     group-hover:scale-105"
                   ></div>
-                  <span className="relative text-white font-medium text-lg">
+                  <a
+                    href="https://lgjishgylxoltopzcoev.supabase.co/storage/v1/object/public/resume//Bhagaban_Paul_Resume.pdf"
+                    className="relative text-white font-medium text-lg"
+                    target="_blank"
+                  >
                     Download Resume
-                  </span>
+                  </a>
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
@@ -261,9 +266,9 @@ export const About = ({ ref }) => {
                     className="absolute inset-0 border-2 border-blue-500 transition-all duration-300
                     group-hover:bg-blue-500/20"
                   ></div>
-                  <span className="relative text-white font-medium text-lg">
+                  <Link to={`/contact`} className="relative text-white font-medium text-lg">
                     Contact Me
-                  </span>
+                  </Link>
                 </motion.button>
               </motion.div>
 
@@ -291,7 +296,6 @@ export const About = ({ ref }) => {
         </div>
 
         {/* Technical Expertise Section */}
-        
       </motion.div>
     </>
   );
