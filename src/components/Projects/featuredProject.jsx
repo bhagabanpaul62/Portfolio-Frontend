@@ -31,6 +31,8 @@ export const FeaturedProjects = ({ onMoreProjectClick, isHomePage }) => {
     },
   };
 
+  console.log()
+
   if (!Array.isArray(projects) || projects.length === 0) {
     return (
       <div className="text-center py-20 text-gray-400">Loading projects...</div>
@@ -121,7 +123,7 @@ export const FeaturedProjects = ({ onMoreProjectClick, isHomePage }) => {
                 {/* Links */}
                 <div className="flex gap-4 pt-4">
                   <a
-                    href={project.liveDemo}
+                    href={project.live_demo}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
@@ -142,7 +144,7 @@ export const FeaturedProjects = ({ onMoreProjectClick, isHomePage }) => {
                     </svg>
                   </a>
                   <a
-                    href={project.githubLink}
+                    href={project.github_link}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-300 transition-colors"
