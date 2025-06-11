@@ -18,7 +18,7 @@ export const DataProvider = ({ children }) => {
       if (error) {
         console.error("🚨 Supabase fetch error:", error.message);
       } else {
-        console.log("✅ Supabase returned data:", data); // Add this
+        console.log("✅ Supabase returned data:"); // Add this
         setProjects(data);
       }
     } catch (err) {
@@ -37,7 +37,7 @@ export const DataProvider = ({ children }) => {
       if (error) {
         console.error("🚨 Supabase fetch error:", error.message);
       } else {
-        console.log("✅ Supabase returned data:", data); // Add this
+        console.log("✅ Supabase returned data:"); // Add this
         setProjects(data);
         return data;
       }

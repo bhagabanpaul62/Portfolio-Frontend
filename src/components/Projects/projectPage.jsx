@@ -57,7 +57,7 @@ export const ProjectPage = () => {
             : [],
           images: Array.isArray(data.images) ? data.images : [],
           github_link: data.github_link ?? "",
-          liveDemo: data.liveDemo ?? "",
+          live_demo: data.live_demo ?? "",
           challenges: data.challenges ?? "",
         });
       } catch (err) {
@@ -250,7 +250,7 @@ export const ProjectPage = () => {
                     <FiGithub className="w-5 h-5" />
                   </a>
                   <a
-                    href={project.liveDemo}
+                    href={project.live_demo}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-between w-full px-4 py-2 bg-gray-800/50 hover:bg-gray-700/50 rounded-lg text-gray-300 hover:text-white transition-colors"

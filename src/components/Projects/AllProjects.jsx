@@ -16,20 +16,26 @@ export const AllProjects = forwardRef((props, ref) => {
 
   const categories = [
     "All",
-    ...new Set(Array.isArray(projects) ? projects.map((project) => project.category): []),
+    ...new Set(
+      Array.isArray(projects) ? projects.map((project) => project.category) : []
+    ),
   ];
 
-  const filteredProjects = Array.isArray(projects) ? projects.filter((project) => {
-    const matchesSearch =
-      project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      project.technologies.some((tech) =>
-        tech.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    const matchesCategory =
-      selectedCategory === "All" || project.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  }) : [];
+  const filteredProjects = Array.isArray(projects)
+    ? projects.filter((project) => {
+        const matchesSearch =
+          project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          project.description
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          project.technologies.some((tech) =>
+            tech.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+        const matchesCategory =
+          selectedCategory === "All" || project.category === selectedCategory;
+        return matchesSearch && matchesCategory;
+      })
+    : [];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -65,8 +71,6 @@ export const AllProjects = forwardRef((props, ref) => {
           ref={ref}
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 "
         >
-      
-
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -201,7 +205,7 @@ export const AllProjects = forwardRef((props, ref) => {
                 {/* Links */}
                 <div className="flex gap-4 pt-4">
                   <a
-                    href={project.liveDemo}
+                    href={project.live_demo}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
@@ -222,7 +226,7 @@ export const AllProjects = forwardRef((props, ref) => {
                     </svg>
                   </a>
                   <a
-                    href={project.githubLink}
+                    href={project.github_link}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-300 transition-colors"

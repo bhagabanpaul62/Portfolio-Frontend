@@ -31,7 +31,7 @@ export const FeaturedProjects = ({ onMoreProjectClick, isHomePage }) => {
     },
   };
 
-  console.log()
+
 
   if (!Array.isArray(projects) || projects.length === 0) {
     return (
