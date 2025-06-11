@@ -90,9 +90,9 @@ function App() {
 
   return (
     <div className="min-h-screen bg-black text-white relative">
-      <SplashCursor>
+      {/* <SplashCursor> */}
         <RouterProvider router={router} />
-      </SplashCursor>
+      {/* </SplashCursor> */}
     </div>
   );
 }
