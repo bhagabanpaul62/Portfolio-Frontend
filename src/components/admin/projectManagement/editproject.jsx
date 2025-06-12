@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect, useContext } from "react";
+import { frameData, motion } from "framer-motion";
 import { FiUpload, FiX, FiSave } from "react-icons/fi";
+import { DataContext } from "../../../context/DataContetx";
+import { useParams } from "react-router-dom";
 
 const EditProject = () => {
+  const { id } = useParams();
+  const { fetcProjectById, updateProject } = useContext(DataContext);
+
   const [formData, setFormData] = useState({
     id: "",
     title: "",
     description: "",
-    longDescription: "",
+    long_description: "",
     technologies: [],
     features: [],
-    githubLink: "",
-    liveLink: "",
+    github_link: "",
+    live_demo: "",
     duration: "",
     role: "",
     impact: "",
@@ -29,34 +34,45 @@ const EditProject = () => {
     // Simulated API call to get project data
     const fetchProjectData = async () => {
       // Replace with your actual API call
-      setTimeout(() => {
+      if (!id) {
+        console.log("no project id is faount ", id);
+        return;
+      }
+      try {
+        const data = await fetcProjectById(id);
+
         setFormData({
-          id: "12345",
-          title: "Example Project",
-          description: "This is an example project description.",
-          longDescription: "This is a longer, more detailed description of the project that explains the background, purpose, and implementation details.",
-          technologies: ["React", "Node.js", "MongoDB"],
-          features: ["Responsive Design", "User Authentication", "Real-time Updates"],
-          githubLink: "https://github.com/example",
-          liveLink: "https://example.com",
-          duration: "3 months",
-          role: "Full Stack Developer",
-          impact: "Increased user engagement by 40%",
-          challenges: "Implementing real-time updates with WebSockets was challenging but rewarding.",
-          category: "web",
-          status: "completed",
-          created_at: "2023-05-15T10:30:00Z",
+          id: data.id,
+          title: data.title ?? "Untitled Project",
+          description: data.description ?? "",
+          long_description: data.long_description ?? "", // ✅ fixed
+          role: data.role ?? "Developer",
+          duration: data.duration ?? "N/A",
+          impact: data.impact ?? "",
+          features: Array.isArray(data.features) ? data.features : [],
+          technologies: Array.isArray(data.technologies)
+            ? data.technologies
+            : [],
+          images: Array.isArray(data.images) ? data.images : [],
+          github_link: data.github_link ?? "", // ✅ fixed
+          live_demo: data.live_demo ?? "", // ✅ fixed
+          challenges: data.challenges ?? "",
+          category: data.category ?? "",
+          status: data.status ?? "",
+          created_at: data.created_at ?? "",
         });
-        setExistingImages([
-          { id: 1, url: "https://example.com/image1.jpg" },
-          { id: 2, url: "https://example.com/image2.jpg" },
-        ]);
+        console.log(frameData);
+
+        setExistingImages(Array.isArray(data.images) ? data.images : []);
+      } catch (err) {
+        console.error("Error fetching project by ID:", err);
+      } finally {
         setIsLoading(false);
-      }, 1000);
+      }
     };
 
     fetchProjectData();
-  }, []);
+  }, [id]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -67,10 +83,10 @@ const EditProject = () => {
   };
 
   const handleArrayInputChange = (e, field) => {
-    const values = e.target.value.split(',').map(item => item.trim());
-    setFormData(prev => ({
+    const values = e.target.value.split(",").map((item) => item.trim());
+    setFormData((prev) => ({
       ...prev,
-      [field]: values
+      [field]: values,
     }));
   };
 
@@ -94,14 +110,62 @@ const EditProject = () => {
     setImages((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const removeExistingImage = (id) => {
-    setExistingImages((prev) => prev.filter((img) => img.id !== id));
+  const removeExistingImage = (url) => {
+    setExistingImages((prev) => prev.filter((img) => img!== url));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your update logic here
-    console.log({ ...formData, newImages: images, existingImages });
+
+    try {
+      const newImageUrls = await uploadImageToSupabase();
+
+      const updatedImages = [
+        ...existingImages.map((img) =>
+          typeof img === "string" ? img : img.url
+        ), // handle different formats
+        ...newImageUrls,
+      ];
+
+      const payload = {
+        ...formData,
+        images: updatedImages, // updated image list
+      };
+
+      await updateProject(formData.id , payload); // assumes you have this function from context
+
+      console.log("Project updated successfully:", payload);
+    } catch (err) {
+      console.error("Error updating project:", err);
+    }
+  };
+
+  const uploadImageToSupabase = async () => {
+    const imageUrls = [];
+  
+    for (const img of images) {
+      const file = img.file;
+      const filename = `${Date.now()}-${file.name}`;
+  
+      const { data, error } = await supabase
+        .storage
+        .from("project-image")
+        .upload(filename, file);
+  
+      if (error) {
+        console.error("Upload failed:", error);
+        continue;
+      }
+  
+      const { data: publicUrlData } = supabase
+        .storage
+        .from("project-image")
+        .getPublicUrl(filename);
+  
+      imageUrls.push(publicUrlData.publicUrl);
+    }
+  
+    return imageUrls;
   };
 
   if (isLoading) {
@@ -179,8 +243,8 @@ const EditProject = () => {
                 Long Description
               </label>
               <textarea
-                name="longDescription"
-                value={formData.longDescription}
+                name="long_description"
+                value={formData.long_description}
                 onChange={handleInputChange}
                 rows="6"
                 className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
@@ -196,8 +260,8 @@ const EditProject = () => {
               <input
                 type="text"
                 name="technologies"
-                value={formData.technologies.join(', ')}
-                onChange={(e) => handleArrayInputChange(e, 'technologies')}
+                value={formData.technologies.join(", ")}
+                onChange={(e) => handleArrayInputChange(e, "technologies")}
                 className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
                 placeholder="e.g., React, Node.js, MongoDB"
                 required
@@ -212,8 +276,8 @@ const EditProject = () => {
               <input
                 type="text"
                 name="features"
-                value={formData.features.join(', ')}
-                onChange={(e) => handleArrayInputChange(e, 'features')}
+                value={formData.features.join(", ")}
+                onChange={(e) => handleArrayInputChange(e, "features")}
                 className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
                 placeholder="e.g., Responsive Design, User Authentication, Real-time Updates"
               />
@@ -227,8 +291,8 @@ const EditProject = () => {
                 </label>
                 <input
                   type="url"
-                  name="githubLink"
-                  value={formData.githubLink}
+                  name="github_link"
+                  value={formData.github_link}
                   onChange={handleInputChange}
                   className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
                   placeholder="https://github.com/..."
@@ -240,8 +304,8 @@ const EditProject = () => {
                 </label>
                 <input
                   type="url"
-                  name="liveLink"
-                  value={formData.liveLink}
+                  name="live_demo"
+                  value={formData.live_demo}
                   onChange={handleInputChange}
                   className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
                   placeholder="https://..."
@@ -352,7 +416,11 @@ const EditProject = () => {
               <input
                 type="datetime-local"
                 name="created_at"
-                value={formData.created_at ? new Date(formData.created_at).toISOString().slice(0, 16) : ""}
+                value={
+                  formData.created_at
+                    ? new Date(formData.created_at).toISOString().slice(0, 16)
+                    : ""
+                }
                 onChange={handleInputChange}
                 className="w-full bg-gray-800/50 text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
               />
@@ -370,16 +438,16 @@ const EditProject = () => {
               <div className="mb-6">
                 <h3 className="text-gray-400 text-sm mb-3">Current Images</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                  {existingImages.map((image) => (
-                    <div key={image.id} className="relative group">
+                  {existingImages.map((image, index) => (
+                    <div key={index} className="relative group">
                       <img
-                        src={image.url}
+                        src={image}
                         alt="Project"
                         className="w-full h-24 object-cover rounded-lg"
                       />
                       <button
                         type="button"
-                        onClick={() => removeExistingImage(image.id)}
+                        onClick={() => removeExistingImage(image)}
                         className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                       >
                         <FiX className="w-4 h-4" />

@@ -76,7 +76,7 @@ function App() {
         <Route path="admin" element={<AdminLayout />}>
           <Route index element={session ? <Dashboard /> : <Login />} />
           <Route
-            path="editproject"
+            path="edit-project/:id"
             element={session ? <EditProject /> : <Login />}
           ></Route>
           <Route

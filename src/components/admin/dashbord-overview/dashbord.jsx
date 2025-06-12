@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { motion } from "framer-motion";
 import { FiUsers, FiActivity, FiFolder, FiMail } from "react-icons/fi";
 import { MdEdit, MdDelete } from "react-icons/md";
+import { Link, Links } from "react-router-dom";
+import { DataContext } from "../../../context/DataContetx";
 
 const Dashboard = () => {
+  const {projects} = useContext(DataContext)
   const stats = [
     {
       id: 1,
       title: "Total Projects",
-      value: "12",
+      value: projects.length,
       icon: <FiFolder className="w-6 h-6" />,
       color: "bg-blue-500",
     },
@@ -129,9 +132,12 @@ const Dashboard = () => {
         >
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-bold text-white">Recent Projects</h2>
-            <button className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:opacity-90 text-white px-4 py-2 rounded-lg text-sm transition-all duration-300">
+            <Link
+              to="uploadproject"
+              className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:opacity-90 text-white px-4 py-2 rounded-lg text-sm transition-all duration-300"
+            >
               Add New Project
-            </button>
+            </Link>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -152,7 +158,7 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {recentProjects.map((project) => (
+                {projects.map((project) => (
                   <tr
                     key={project.id}
                     className="border-b border-gray-800/30 last:border-0"
@@ -163,9 +169,9 @@ const Dashboard = () => {
                     <td className="py-4">
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          project.status === "Completed"
+                          project.status === "completed"
                             ? "bg-green-900/50 text-green-400"
-                            : project.status === "In Progress"
+                            : project.status === "in-progress"
                             ? "bg-blue-900/50 text-blue-400"
                             : "bg-yellow-900/50 text-yellow-400"
                         }`}
@@ -178,9 +184,12 @@ const Dashboard = () => {
                     </td>
                     <td className="py-4">
                       <div className="flex space-x-2">
-                        <button className="p-1.5 hover:bg-gray-800/50 rounded-lg transition-colors">
+                        <Link
+                          to={`edit-project/${project.id}`}
+                          className="p-1.5 hover:bg-gray-800/50 rounded-lg transition-colors"
+                        >
                           <MdEdit className="w-5 h-5 text-blue-400" />
-                        </button>
+                        </Link>
                         <button className="p-1.5 hover:bg-gray-800/50 rounded-lg transition-colors">
                           <MdDelete className="w-5 h-5 text-red-400" />
                         </button>

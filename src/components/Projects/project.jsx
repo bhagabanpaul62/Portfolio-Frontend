@@ -9,10 +9,10 @@ export const Project = () => {
   return (
     <div className="w-full min-h-screen px-4 py-20 lg:px-8">
       {/* Header Section */}
-      <FeaturedProjects
+      {/* <FeaturedProjects
         onMoreProjectClick={scrollToAllProjects}
         isHomePage={false}
-      />
+      /> */}
 
       {/* Search and Filter Section */}
       <AllProjects ref={allProjectRef} />
